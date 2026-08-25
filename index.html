@@ -162,58 +162,6 @@
   .section-head h2{ font-size:22px; color:var(--cream); margin:0 0 14px; }
   .section-head p{ opacity:.8; margin:0; font-size:14px; }
 
-  /* ---------- inventory (signature element) ---------- */
-  .inventory-frame{ padding:28px; }
-  .inventory-grid{
-    display:grid;
-    grid-template-columns:repeat(6, 1fr);
-    gap:12px;
-  }
-  @media (max-width:720px){
-    .inventory-grid{ grid-template-columns:repeat(3, 1fr); }
-  }
-  .slot{
-    aspect-ratio:1;
-    background:var(--ink);
-    border:3px solid var(--panel-light);
-    display:flex;
-    align-items:center;
-    justify-content:center;
-    position:relative;
-    cursor:default;
-    transition:transform .1s ease, border-color .1s ease;
-  }
-  .slot:hover{
-    transform:translateY(-4px);
-    border-color:var(--amber);
-    z-index:5;
-  }
-  .slot .icon{ width:56%; height:56%; image-rendering:pixelated; shape-rendering:crispEdges; }
-  .slot .tooltip{
-    position:absolute;
-    bottom:calc(100% + 10px);
-    left:50%;
-    transform:translateX(-50%) scale(.9);
-    width:170px;
-    background:var(--cream);
-    color:var(--ink);
-    font-family:'Space Mono', monospace;
-    font-size:12px;
-    padding:10px;
-    border:3px solid var(--ink);
-    box-shadow:4px 4px 0 var(--shadow);
-    opacity:0;
-    pointer-events:none;
-    transition:opacity .1s ease, transform .1s ease;
-    text-align:left;
-    z-index:10;
-  }
-  .slot .tooltip b{ display:block; color:var(--coral); margin-bottom:4px; font-family:'Press Start 2P'; font-size:9px; }
-  .slot:hover .tooltip{ opacity:1; transform:translateX(-50%) scale(1); }
-  .inventory-caption{
-    text-align:center; margin-top:20px; font-size:12px; opacity:.65;
-  }
-
   /* ---------- about ---------- */
   .about-grid{
     display:grid;
@@ -239,60 +187,6 @@
     padding:20px;
   }
   .about-visual svg{ width:70%; height:70%; image-rendering:pixelated; shape-rendering:crispEdges; }
-
-  /* ---------- categories ---------- */
-  .cat-grid{
-    display:grid;
-    grid-template-columns:repeat(4, 1fr);
-    gap:20px;
-  }
-  @media (max-width:900px){ .cat-grid{ grid-template-columns:repeat(2,1fr); } }
-  @media (max-width:520px){ .cat-grid{ grid-template-columns:1fr; } }
-  .cat-card{
-    padding:22px;
-    background:var(--panel);
-    text-align:left;
-  }
-  .cat-card .icon-wrap{
-    width:44px; height:44px;
-    background:var(--ink);
-    border:3px solid var(--panel-light);
-    display:flex; align-items:center; justify-content:center;
-    margin-bottom:16px;
-  }
-  .cat-card .icon-wrap svg{ width:60%; height:60%; }
-  .cat-card h3{ font-size:13px; margin:0 0 10px; color:var(--amber); }
-  .cat-card p{ font-size:13px; opacity:.8; margin:0 0 14px; }
-  .cat-card .count{ font-size:11px; color:var(--mint); }
-
-  /* ---------- how to loot ---------- */
-  .steps{
-    counter-reset: step;
-    display:flex; flex-direction:column; gap:0;
-    max-width:640px; margin:0 auto;
-  }
-  .step{
-    display:flex; gap:20px;
-    padding:22px 0;
-    border-bottom:2px dashed var(--panel-light);
-  }
-  .step:last-child{ border-bottom:none; }
-  .step-num{
-    font-family:'Press Start 2P';
-    font-size:16px;
-    color:var(--coral);
-    flex-shrink:0;
-    width:36px;
-  }
-  .step h3{ font-size:13px; margin:0 0 8px; color:var(--cream); }
-  .step p{ font-size:13px; opacity:.8; margin:0; }
-  .step code{
-    background:var(--ink);
-    border:1px solid var(--panel-light);
-    padding:2px 6px;
-    font-size:12px;
-    color:var(--mint);
-  }
 
   /* ---------- cta / footer ---------- */
   .cta-band{
@@ -368,9 +262,7 @@
       PIXELS PUBLIC STASH
     </a>
     <nav class="nav-links">
-      <a href="#inventory">Inventory</a>
-      <a href="#loot-types">Loot Types</a>
-      <a href="#how-to">How to Loot</a>
+      <a href="#about">About</a>
       <a href="https://github.com/" target="_blank" rel="noopener">GitHub</a>
     </nav>
   </div>
@@ -391,51 +283,9 @@
         stashed by pixel artists, for anyone building a game. Take what you need. No sign-up. No catch.
       </p>
       <div class="hero-ctas">
-        <a href="#inventory" class="pixel-btn">OPEN THE STASH</a>
+        <a href="#about" class="pixel-btn">OPEN THE STASH</a>
         <a href="https://github.com/" target="_blank" rel="noopener" class="pixel-btn ghost">VIEW ON GITHUB</a>
       </div>
-    </div>
-  </section>
-
-  <section id="inventory">
-    <div class="wrap">
-      <div class="section-head">
-        <span class="eyebrow pixel-font">INVENTORY</span>
-        <h2>Today's drops</h2>
-        <p>A rotating sample of what's sitting in the stash right now. Hover a slot to see what it is.</p>
-      </div>
-
-      <div class="pixel-box inventory-frame">
-        <div class="inventory-grid">
-          <!-- 12 slots cycling through 6 icons -->
-          <div class="slot"><svg class="icon"><use href="#icon-chest"/></svg>
-            <div class="tooltip"><b>TILESET</b>Autumn Village · 32×32 tiles, seamless edges</div></div>
-          <div class="slot"><svg class="icon"><use href="#icon-gem"/></svg>
-            <div class="tooltip"><b>PALETTE</b>Dusk-8 · 8-color moody twilight ramp</div></div>
-          <div class="slot"><svg class="icon"><use href="#icon-sword"/></svg>
-            <div class="tooltip"><b>SPRITE SHEET</b>Knight Walk/Attack · 6 frames each</div></div>
-          <div class="slot"><svg class="icon"><use href="#icon-heart"/></svg>
-            <div class="tooltip"><b>UI KIT</b>HP/Mana Bars · animated fill states</div></div>
-          <div class="slot"><svg class="icon"><use href="#icon-star"/></svg>
-            <div class="tooltip"><b>UI KIT</b>Loot Sparkle · 4-frame pickup FX</div></div>
-          <div class="slot"><svg class="icon"><use href="#icon-potion"/></svg>
-            <div class="tooltip"><b>SPRITE</b>Brew Bottles · 12 potion variants</div></div>
-
-          <div class="slot"><svg class="icon"><use href="#icon-gem"/></svg>
-            <div class="tooltip"><b>PALETTE</b>Coral Reef-6 · warm undersea tones</div></div>
-          <div class="slot"><svg class="icon"><use href="#icon-chest"/></svg>
-            <div class="tooltip"><b>TILESET</b>Dungeon Stone · torches included</div></div>
-          <div class="slot"><svg class="icon"><use href="#icon-star"/></svg>
-            <div class="tooltip"><b>ICON PACK</b>48 pixel status icons</div></div>
-          <div class="slot"><svg class="icon"><use href="#icon-heart"/></svg>
-            <div class="tooltip"><b>UI KIT</b>Dialogue Box · 3 border styles</div></div>
-          <div class="slot"><svg class="icon"><use href="#icon-sword"/></svg>
-            <div class="tooltip"><b>SPRITE SHEET</b>Slime Enemy · idle/hurt/death</div></div>
-          <div class="slot"><svg class="icon"><use href="#icon-potion"/></svg>
-            <div class="tooltip"><b>SPRITE</b>Campfire · 4-frame flicker loop</div></div>
-        </div>
-      </div>
-      <p class="inventory-caption">New loot gets stashed most weekends — check the repo for the full log.</p>
     </div>
   </section>
 
@@ -446,8 +296,8 @@
         <h2>One folder. No strings.</h2>
         <p>Pixels Public Stash is a plain GitHub repo, organized by loot type, that anyone can clone, fork, or
           drop assets into. No accounts, no paywalled tiers — if it's in the stash, it's yours to use.</p>
-        <p>Everything is released under a permissive license noted in each folder's README. Credit is
-          appreciated, never required.</p>
+        <p>Sprites, tilesets, palettes, and UI kits — everything is released under a permissive license
+          noted in each folder's README. Credit is appreciated, never required.</p>
         <div class="stat-row">
           <div class="stat"><span class="num">120+</span><span class="label">assets stashed</span></div>
           <div class="stat"><span class="num">4</span><span class="label">loot categories</span></div>
@@ -456,69 +306,6 @@
       </div>
       <div class="about-visual pixel-box">
         <svg viewBox="0 0 8 8"><use href="#icon-chest"/></svg>
-      </div>
-    </div>
-  </section>
-
-  <section id="loot-types">
-    <div class="wrap">
-      <div class="section-head">
-        <span class="eyebrow pixel-font">LOOT TYPES</span>
-        <h2>Browse by category</h2>
-        <p>The stash is split into four folders in the repo — grab a whole set or cherry-pick single files.</p>
-      </div>
-      <div class="cat-grid">
-        <div class="cat-card pixel-box">
-          <div class="icon-wrap"><svg viewBox="0 0 8 8"><use href="#icon-sword"/></svg></div>
-          <h3>SPRITES &amp; CHARACTERS</h3>
-          <p>Player and enemy sheets, animation frames, and standalone item sprites.</p>
-          <span class="count">48 files</span>
-        </div>
-        <div class="cat-card pixel-box">
-          <div class="icon-wrap"><svg viewBox="0 0 8 8"><use href="#icon-chest"/></svg></div>
-          <h3>TILESETS &amp; WORLDS</h3>
-          <p>Seamless tile sheets for terrain, dungeons, towns, and interiors.</p>
-          <span class="count">22 files</span>
-        </div>
-        <div class="cat-card pixel-box">
-          <div class="icon-wrap"><svg viewBox="0 0 8 8"><use href="#icon-gem"/></svg></div>
-          <h3>COLOR PALETTES</h3>
-          <p>Curated ramps in .gpl and .png swatch form, 4 to 16 colors each.</p>
-          <span class="count">31 files</span>
-        </div>
-        <div class="cat-card pixel-box">
-          <div class="icon-wrap"><svg viewBox="0 0 8 8"><use href="#icon-star"/></svg></div>
-          <h3>UI &amp; HUD KITS</h3>
-          <p>Health bars, dialogue boxes, cursors, and pickup effects.</p>
-          <span class="count">19 files</span>
-        </div>
-      </div>
-    </div>
-  </section>
-
-  <section id="how-to">
-    <div class="wrap">
-      <div class="section-head">
-        <span class="eyebrow pixel-font">HOW TO LOOT</span>
-        <h2>Getting assets into your game</h2>
-      </div>
-      <div class="steps pixel-box" style="padding:10px 30px;">
-        <div class="step">
-          <span class="step-num">01</span>
-          <div><h3>Clone the repo</h3><p>Run <code>git clone</code> on the Pixels Public Stash repository, or download it as a zip from GitHub.</p></div>
-        </div>
-        <div class="step">
-          <span class="step-num">02</span>
-          <div><h3>Open the loot folder</h3><p>Each category has its own subfolder with a README listing what's inside and the license it's under.</p></div>
-        </div>
-        <div class="step">
-          <span class="step-num">03</span>
-          <div><h3>Drag assets into your project</h3><p>Sprites are exported as trimmed PNGs; tilesets keep their native grid size in the filename.</p></div>
-        </div>
-        <div class="step">
-          <span class="step-num">04</span>
-          <div><h3>Ship it — and stash something back</h3><p>Pull requests with new loot are always welcome, credited or anonymous.</p></div>
-        </div>
       </div>
     </div>
   </section>
