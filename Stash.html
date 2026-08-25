@@ -1,0 +1,218 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Pixels Public Stash — Link Vault</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Press+Start+2P&family=Space+Mono:ital,wght@0,400;0,700;1,400&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --ink:#1A1425;
+    --panel:#2E2140;
+    --panel-light:#3B2B54;
+    --amber:#F4C95D;
+    --coral:#E8664A;
+    --cream:#F5F0E6;
+    --mint:#7FD1B9;
+    --shadow: rgba(0,0,0,0.55);
+    --max-w: 1000px;
+  }
+  *{ box-sizing:border-box; }
+  body{
+    margin:0;
+    background:var(--ink);
+    color:var(--cream);
+    font-family:'Space Mono', monospace;
+    font-size:16px;
+    line-height:1.6;
+  }
+  h1,h2,.pixel-font{
+    font-family:'Press Start 2P', monospace;
+    line-height:1.5;
+    letter-spacing:0.5px;
+  }
+  a{ color:inherit; }
+  .wrap{ max-width:var(--max-w); margin:0 auto; padding:0 24px; }
+
+  /* header */
+  header{ padding:56px 0 30px; text-align:center; }
+  .eyebrow{ font-size:11px; color:var(--mint); letter-spacing:2px; }
+  header h1{ font-size:clamp(22px,4vw,34px); margin:20px 0 14px; color:var(--cream); }
+  header p{ max-width:520px; margin:0 auto; opacity:.8; font-size:14px; }
+
+  /* drawer tabs */
+  .drawers{
+    display:flex;
+    gap:10px;
+    justify-content:center;
+    flex-wrap:wrap;
+    margin:36px 0 0;
+  }
+  .drawer-tab{
+    font-family:'Press Start 2P', monospace;
+    font-size:11px;
+    padding:14px 18px;
+    background:var(--panel);
+    color:var(--cream);
+    border:4px solid var(--panel-light);
+    box-shadow:4px 4px 0 var(--shadow);
+    cursor:pointer;
+    transition:transform .08s ease, border-color .1s ease, background .1s ease;
+  }
+  .drawer-tab .count{ display:block; margin-top:6px; font-size:9px; color:var(--mint); }
+  .drawer-tab:hover{ transform:translate(-2px,-2px); box-shadow:6px 6px 0 var(--shadow); }
+  .drawer-tab.active{
+    background:var(--amber);
+    color:var(--ink);
+    border-color:var(--ink);
+  }
+  .drawer-tab.active .count{ color:var(--coral); }
+
+  /* panel */
+  main{ padding:44px 0 80px; }
+  .panel{
+    display:none;
+    border:4px solid var(--cream);
+    box-shadow:6px 6px 0 var(--shadow);
+    background:var(--panel);
+    padding:28px;
+  }
+  .panel.active{ display:block; }
+  .panel-head{ display:flex; align-items:baseline; justify-content:space-between; margin-bottom:22px; flex-wrap:wrap; gap:10px;}
+  .panel-head h2{ font-size:16px; color:var(--amber); margin:0; }
+  .panel-head span{ font-size:12px; opacity:.65; }
+
+  .link-grid{
+    display:grid;
+    grid-template-columns:repeat(2, 1fr);
+    gap:14px;
+  }
+  @media (max-width:640px){ .link-grid{ grid-template-columns:1fr; } }
+
+  .link-btn{
+    display:flex;
+    align-items:center;
+    justify-content:space-between;
+    gap:10px;
+    background:var(--ink);
+    border:3px solid var(--panel-light);
+    padding:14px 16px;
+    text-decoration:none;
+    color:var(--cream);
+    font-size:13px;
+    transition:transform .08s ease, border-color .1s ease;
+  }
+  .link-btn:hover{ transform:translate(-2px,-2px); border-color:var(--mint); }
+  .link-btn:active{ transform:translate(1px,1px); }
+  .link-btn .name{ font-weight:700; }
+  .link-btn .desc{ display:block; font-size:11px; opacity:.65; font-weight:400; margin-top:3px; }
+  .link-btn .arrow{ font-family:'Press Start 2P'; font-size:12px; color:var(--coral); flex-shrink:0; }
+
+  footer{ text-align:center; padding:30px 0 50px; font-size:12px; opacity:.6; }
+  footer a{ text-decoration:underline; }
+</style>
+</head>
+<body>
+
+<header class="wrap">
+  <span class="eyebrow pixel-font">// LINK VAULT</span>
+  <h1>Pixels Public Stash<br>Link Vault</h1>
+  <p>40 hand-picked pixel-art resources, sorted into 4 drawers. Pick a drawer, pick a link — opens in a new tab.</p>
+</header>
+
+<div class="drawers wrap" role="tablist">
+  <button class="drawer-tab active" data-panel="sprites">SPRITES<span class="count">10 links</span></button>
+  <button class="drawer-tab" data-panel="tilesets">TILESETS<span class="count">10 links</span></button>
+  <button class="drawer-tab" data-panel="palettes">PALETTES<span class="count">10 links</span></button>
+  <button class="drawer-tab" data-panel="ui">UI TOOLS<span class="count">10 links</span></button>
+</div>
+
+<main class="wrap">
+
+  <section class="panel active" id="sprites">
+    <div class="panel-head"><h2>SPRITES &amp; CHARACTERS</h2><span>sheets, editors, and single sprites</span></div>
+    <div class="link-grid">
+      <a class="link-btn" href="https://opengameart.org/art-search-advanced?field_art_type_tid%5B%5D=9" target="_blank" rel="noopener"><span><span class="name">OpenGameArt</span><span class="desc">Free sprite library, all licenses tagged</span></span><span class="arrow">→</span></a>
+      <a class="link-btn" href="https://itch.io/game-assets/tag-pixel-art" target="_blank" rel="noopener"><span><span class="name">itch.io Assets</span><span class="desc">Indie-made sprite packs, free & paid</span></span><span class="arrow">→</span></a>
+      <a class="link-btn" href="https://kenney.nl/assets?q=2d" target="_blank" rel="noopener"><span><span class="name">Kenney</span><span class="desc">CC0 sprite packs, huge selection</span></span><span class="arrow">→</span></a>
+      <a class="link-btn" href="https://www.spriters-resource.com/" target="_blank" rel="noopener"><span><span class="name">The Spriters Resource</span><span class="desc">Ripped sheets from classic games</span></span><span class="arrow">→</span></a>
+      <a class="link-btn" href="https://craftpix.net/freebies/" target="_blank" rel="noopener"><span><span class="name">CraftPix Freebies</span><span class="desc">Free character & item sprite sets</span></span><span class="arrow">→</span></a>
+      <a class="link-btn" href="https://www.piskelapp.com/" target="_blank" rel="noopener"><span><span class="name">Piskel</span><span class="desc">Browser sprite editor + animator</span></span><span class="arrow">→</span></a>
+      <a class="link-btn" href="https://www.aseprite.org/" target="_blank" rel="noopener"><span><span class="name">Aseprite</span><span class="desc">The go-to paid sprite/animation tool</span></span><span class="arrow">→</span></a>
+      <a class="link-btn" href="https://lpc.opengameart.org/" target="_blank" rel="noopener"><span><span class="name">Liberated Pixel Cup</span><span class="desc">Modular RPG character base</span></span><span class="arrow">→</span></a>
+      <a class="link-btn" href="https://www.gameart2d.com/freebies.html" target="_blank" rel="noopener"><span><span class="name">GameArt2D</span><span class="desc">Free character & enemy sprite sets</span></span><span class="arrow">→</span></a>
+      <a class="link-btn" href="https://pixeljoint.com/" target="_blank" rel="noopener"><span><span class="name">Pixel Joint</span><span class="desc">Long-running pixel art community</span></span><span class="arrow">→</span></a>
+    </div>
+  </section>
+
+  <section class="panel" id="tilesets">
+    <div class="panel-head"><h2>TILESETS &amp; WORLDS</h2><span>terrain, dungeons, towns</span></div>
+    <div class="link-grid">
+      <a class="link-btn" href="https://opengameart.org/art-search-advanced?field_art_type_tid%5B%5D=10" target="_blank" rel="noopener"><span><span class="name">OpenGameArt Tiles</span><span class="desc">Free tile sheets, all licenses tagged</span></span><span class="arrow">→</span></a>
+      <a class="link-btn" href="https://kenney.nl/assets?q=tile" target="_blank" rel="noopener"><span><span class="name">Kenney Tile Packs</span><span class="desc">CC0 tilesets, many themes</span></span><span class="arrow">→</span></a>
+      <a class="link-btn" href="https://itch.io/game-assets/tag-tileset" target="_blank" rel="noopener"><span><span class="name">itch.io Tilesets</span><span class="desc">Indie-made tilesets, free & paid</span></span><span class="arrow">→</span></a>
+      <a class="link-btn" href="https://craftpix.net/categorys/tilesets/" target="_blank" rel="noopener"><span><span class="name">CraftPix Tilesets</span><span class="desc">Themed tile packs, some free</span></span><span class="arrow">→</span></a>
+      <a class="link-btn" href="https://www.mapeditor.org/" target="_blank" rel="noopener"><span><span class="name">Tiled Map Editor</span><span class="desc">Free tool for building tile maps</span></span><span class="arrow">→</span></a>
+      <a class="link-btn" href="https://lpc.opengameart.org/" target="_blank" rel="noopener"><span><span class="name">Liberated Pixel Cup</span><span class="desc">Matching terrain & building tiles</span></span><span class="arrow">→</span></a>
+      <a class="link-btn" href="https://pixelfrog-assets.itch.io/" target="_blank" rel="noopener"><span><span class="name">Pixel Frog</span><span class="desc">Polished free tileset packs</span></span><span class="arrow">→</span></a>
+      <a class="link-btn" href="https://www.gamedevmarket.net/category/2d/tiles" target="_blank" rel="noopener"><span><span class="name">GameDev Market</span><span class="desc">Marketplace for tile & terrain sets</span></span><span class="arrow">→</span></a>
+      <a class="link-btn" href="https://itch.io/game-assets/free/tag-tileset" target="_blank" rel="noopener"><span><span class="name">itch.io Free Tilesets</span><span class="desc">Filtered to free-only tile packs</span></span><span class="arrow">→</span></a>
+      <a class="link-btn" href="https://finalbossblues.itch.io/" target="_blank" rel="noopener"><span><span class="name">Finalbossblues</span><span class="desc">Time Fantasy tileset series</span></span><span class="arrow">→</span></a>
+    </div>
+  </section>
+
+  <section class="panel" id="palettes">
+    <div class="panel-head"><h2>COLOR PALETTES</h2><span>ramps, pickers, and generators</span></div>
+    <div class="link-grid">
+      <a class="link-btn" href="https://lospec.com/palette-list" target="_blank" rel="noopener"><span><span class="name">Lospec Palette List</span><span class="desc">The definitive pixel-palette archive</span></span><span class="arrow">→</span></a>
+      <a class="link-btn" href="https://lospec.com/palette-generator" target="_blank" rel="noopener"><span><span class="name">Lospec Generator</span><span class="desc">Build a palette from an image</span></span><span class="arrow">→</span></a>
+      <a class="link-btn" href="https://coolors.co/" target="_blank" rel="noopener"><span><span class="name">Coolors</span><span class="desc">Fast palette generator & explorer</span></span><span class="arrow">→</span></a>
+      <a class="link-btn" href="https://color.adobe.com/" target="_blank" rel="noopener"><span><span class="name">Adobe Color</span><span class="desc">Color wheel + trending palettes</span></span><span class="arrow">→</span></a>
+      <a class="link-btn" href="https://paletton.com/" target="_blank" rel="noopener"><span><span class="name">Paletton</span><span class="desc">Color-scheme designer with harmony rules</span></span><span class="arrow">→</span></a>
+      <a class="link-btn" href="https://www.colourlovers.com/" target="_blank" rel="noopener"><span><span class="name">COLOURlovers</span><span class="desc">Community-made palettes & patterns</span></span><span class="arrow">→</span></a>
+      <a class="link-btn" href="https://colorhunt.co/" target="_blank" rel="noopener"><span><span class="name">Color Hunt</span><span class="desc">Curated trending 4-color palettes</span></span><span class="arrow">→</span></a>
+      <a class="link-btn" href="https://flatuicolors.com/" target="_blank" rel="noopener"><span><span class="name">Flat UI Colors</span><span class="desc">Flat-design color swatches</span></span><span class="arrow">→</span></a>
+      <a class="link-btn" href="https://pixeljoint.com/forum/forum_index.asp" target="_blank" rel="noopener"><span><span class="name">Pixel Joint Forums</span><span class="desc">Palette critique & ramp discussion</span></span><span class="arrow">→</span></a>
+      <a class="link-btn" href="https://www.canva.com/colors/color-wheel/" target="_blank" rel="noopener"><span><span class="name">Canva Color Wheel</span><span class="desc">Simple visual palette builder</span></span><span class="arrow">→</span></a>
+    </div>
+  </section>
+
+  <section class="panel" id="ui">
+    <div class="panel-head"><h2>UI &amp; HUD TOOLS</h2><span>bars, boxes, icons, kits</span></div>
+    <div class="link-grid">
+      <a class="link-btn" href="https://kenney.nl/assets?q=ui" target="_blank" rel="noopener"><span><span class="name">Kenney UI Packs</span><span class="desc">CC0 buttons, bars, and panels</span></span><span class="arrow">→</span></a>
+      <a class="link-btn" href="https://itch.io/game-assets/tag-gui" target="_blank" rel="noopener"><span><span class="name">itch.io GUI Assets</span><span class="desc">Indie-made HUD & menu kits</span></span><span class="arrow">→</span></a>
+      <a class="link-btn" href="https://craftpix.net/categorys/gui/" target="_blank" rel="noopener"><span><span class="name">CraftPix GUI</span><span class="desc">Themed interface kits, some free</span></span><span class="arrow">→</span></a>
+      <a class="link-btn" href="https://game-icons.net/" target="_blank" rel="noopener"><span><span class="name">Game-icons.net</span><span class="desc">Thousands of free vector game icons</span></span><span class="arrow">→</span></a>
+      <a class="link-btn" href="https://www.aseprite.org/" target="_blank" rel="noopener"><span><span class="name">Aseprite</span><span class="desc">Build custom UI elements pixel-by-pixel</span></span><span class="arrow">→</span></a>
+      <a class="link-btn" href="https://www.piskelapp.com/" target="_blank" rel="noopener"><span><span class="name">Piskel</span><span class="desc">Free browser editor for UI sprites</span></span><span class="arrow">→</span></a>
+      <a class="link-btn" href="https://graphicriver.net/game-assets/user-interfaces" target="_blank" rel="noopener"><span><span class="name">GraphicRiver UI</span><span class="desc">Marketplace for premium HUD kits</span></span><span class="arrow">→</span></a>
+      <a class="link-btn" href="https://itch.io/game-assets/free/tag-gui" target="_blank" rel="noopener"><span><span class="name">itch.io Free GUI</span><span class="desc">Filtered to free-only UI kits</span></span><span class="arrow">→</span></a>
+      <a class="link-btn" href="https://opengameart.org/art-search-advanced?field_art_type_tid%5B%5D=12" target="_blank" rel="noopener"><span><span class="name">OpenGameArt GUI</span><span class="desc">Free interface art, all licenses tagged</span></span><span class="arrow">→</span></a>
+      <a class="link-btn" href="https://www.figma.com/community/tag/game-ui" target="_blank" rel="noopener"><span><span class="name">Figma Community</span><span class="desc">Game UI kits to remix and export</span></span><span class="arrow">→</span></a>
+    </div>
+  </section>
+
+</main>
+
+<footer class="wrap">
+  Pixels Public Stash · Link Vault · <a href="index.html">← Back to the stash</a>
+</footer>
+
+<script>
+  const tabs = document.querySelectorAll('.drawer-tab');
+  const panels = document.querySelectorAll('.panel');
+  tabs.forEach(tab => {
+    tab.addEventListener('click', () => {
+      tabs.forEach(t => t.classList.remove('active'));
+      panels.forEach(p => p.classList.remove('active'));
+      tab.classList.add('active');
+      document.getElementById(tab.dataset.panel).classList.add('active');
+    });
+  });
+</script>
+
+</body>
+</html>
