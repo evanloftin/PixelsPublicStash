@@ -1,0 +1,541 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Pixels Public Stash</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Press+Start+2P&family=Space+Mono:ital,wght@0,400;0,700;1,400&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --ink:#1A1425;
+    --panel:#2E2140;
+    --panel-light:#3B2B54;
+    --amber:#F4C95D;
+    --coral:#E8664A;
+    --cream:#F5F0E6;
+    --mint:#7FD1B9;
+    --mint-deep:#357F79;
+    --shadow: rgba(0,0,0,0.55);
+    --max-w: 1100px;
+  }
+
+  *{ box-sizing:border-box; }
+  html{ scroll-behavior:smooth; }
+
+  body{
+    margin:0;
+    background:var(--ink);
+    color:var(--cream);
+    font-family:'Space Mono', monospace;
+    font-size:16px;
+    line-height:1.6;
+    overflow-x:hidden;
+    position:relative;
+  }
+
+  /* subtle CRT scanline atmosphere */
+  body::before{
+    content:"";
+    position:fixed;
+    inset:0;
+    pointer-events:none;
+    background:repeating-linear-gradient(
+      to bottom,
+      rgba(255,255,255,0.025) 0px,
+      rgba(255,255,255,0.025) 1px,
+      transparent 1px,
+      transparent 3px
+    );
+    z-index:999;
+    mix-blend-mode:overlay;
+  }
+
+  h1,h2,h3, .pixel-font{
+    font-family:'Press Start 2P', monospace;
+    line-height:1.5;
+    letter-spacing:0.5px;
+  }
+
+  a{ color:inherit; }
+
+  .wrap{
+    max-width:var(--max-w);
+    margin:0 auto;
+    padding:0 24px;
+  }
+
+  /* ---------- pixel button / box primitives ---------- */
+  .pixel-box{
+    border:4px solid var(--cream);
+    box-shadow:6px 6px 0 var(--shadow);
+    background:var(--panel);
+  }
+
+  .pixel-btn{
+    display:inline-block;
+    font-family:'Press Start 2P', monospace;
+    font-size:12px;
+    color:var(--ink);
+    background:var(--amber);
+    border:4px solid var(--ink);
+    box-shadow:5px 5px 0 var(--shadow);
+    padding:14px 20px;
+    text-decoration:none;
+    cursor:pointer;
+    transition:transform .08s ease;
+  }
+  .pixel-btn:hover{ transform:translate(-2px,-2px); box-shadow:7px 7px 0 var(--shadow); }
+  .pixel-btn:active{ transform:translate(3px,3px); box-shadow:2px 2px 0 var(--shadow); }
+  .pixel-btn.ghost{
+    background:transparent;
+    color:var(--cream);
+    border-color:var(--cream);
+  }
+
+  /* ---------- nav ---------- */
+  .nav{
+    position:sticky; top:0; z-index:100;
+    background:var(--ink);
+    border-bottom:4px solid var(--panel-light);
+  }
+  .nav .wrap{
+    display:flex; align-items:center; justify-content:space-between;
+    padding-top:16px; padding-bottom:16px;
+  }
+  .brand{
+    display:flex; align-items:center; gap:10px;
+    font-family:'Press Start 2P', monospace;
+    font-size:13px;
+    color:var(--amber);
+    text-decoration:none;
+  }
+  .brand .icon{ width:22px; height:22px; }
+  .nav-links{ display:flex; gap:22px; font-size:13px; }
+  .nav-links a{ text-decoration:none; color:var(--cream); opacity:.85; }
+  .nav-links a:hover{ color:var(--amber); opacity:1; }
+
+  /* ---------- hero ---------- */
+  .hero{
+    padding:90px 0 60px;
+    text-align:center;
+    position:relative;
+  }
+  .eyebrow{
+    font-size:11px;
+    color:var(--mint);
+    letter-spacing:2px;
+  }
+  .hero h1{
+    font-size:clamp(28px, 5vw, 46px);
+    color:var(--cream);
+    margin:24px 0 18px;
+  }
+  .hero h1 span{
+    display:inline-block;
+    opacity:0;
+    transform:translateY(10px);
+    animation:materialize .45s steps(4) forwards;
+  }
+  @keyframes materialize{
+    to{ opacity:1; transform:translateY(0); }
+  }
+  .hero .amber-letter{ color:var(--amber); }
+  .hero p.tag{
+    max-width:560px;
+    margin:0 auto 34px;
+    color:var(--cream);
+    opacity:.85;
+    font-size:15px;
+  }
+  .hero-ctas{ display:flex; gap:16px; justify-content:center; flex-wrap:wrap; }
+
+  @media (prefers-reduced-motion: reduce){
+    .hero h1 span{ animation:none; opacity:1; transform:none; }
+  }
+
+  /* ---------- section shell ---------- */
+  section{ padding:70px 0; }
+  .section-head{ max-width:640px; margin:0 auto 44px; text-align:center; }
+  .section-head .eyebrow{ display:block; margin-bottom:14px; }
+  .section-head h2{ font-size:22px; color:var(--cream); margin:0 0 14px; }
+  .section-head p{ opacity:.8; margin:0; font-size:14px; }
+
+  /* ---------- inventory (signature element) ---------- */
+  .inventory-frame{ padding:28px; }
+  .inventory-grid{
+    display:grid;
+    grid-template-columns:repeat(6, 1fr);
+    gap:12px;
+  }
+  @media (max-width:720px){
+    .inventory-grid{ grid-template-columns:repeat(3, 1fr); }
+  }
+  .slot{
+    aspect-ratio:1;
+    background:var(--ink);
+    border:3px solid var(--panel-light);
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    position:relative;
+    cursor:default;
+    transition:transform .1s ease, border-color .1s ease;
+  }
+  .slot:hover{
+    transform:translateY(-4px);
+    border-color:var(--amber);
+    z-index:5;
+  }
+  .slot .icon{ width:56%; height:56%; image-rendering:pixelated; shape-rendering:crispEdges; }
+  .slot .tooltip{
+    position:absolute;
+    bottom:calc(100% + 10px);
+    left:50%;
+    transform:translateX(-50%) scale(.9);
+    width:170px;
+    background:var(--cream);
+    color:var(--ink);
+    font-family:'Space Mono', monospace;
+    font-size:12px;
+    padding:10px;
+    border:3px solid var(--ink);
+    box-shadow:4px 4px 0 var(--shadow);
+    opacity:0;
+    pointer-events:none;
+    transition:opacity .1s ease, transform .1s ease;
+    text-align:left;
+    z-index:10;
+  }
+  .slot .tooltip b{ display:block; color:var(--coral); margin-bottom:4px; font-family:'Press Start 2P'; font-size:9px; }
+  .slot:hover .tooltip{ opacity:1; transform:translateX(-50%) scale(1); }
+  .inventory-caption{
+    text-align:center; margin-top:20px; font-size:12px; opacity:.65;
+  }
+
+  /* ---------- about ---------- */
+  .about-grid{
+    display:grid;
+    grid-template-columns:1fr 1fr;
+    gap:40px;
+    align-items:center;
+  }
+  @media (max-width:760px){ .about-grid{ grid-template-columns:1fr; } }
+  .about-copy h2{ font-size:20px; margin-bottom:18px; }
+  .about-copy p{ opacity:.85; font-size:14px; margin-bottom:14px; }
+  .stat-row{ display:flex; gap:14px; margin-top:22px; flex-wrap:wrap; }
+  .stat{
+    padding:14px 16px;
+    border:3px solid var(--panel-light);
+    min-width:110px;
+  }
+  .stat .num{ font-family:'Press Start 2P'; color:var(--mint); font-size:16px; display:block; margin-bottom:6px;}
+  .stat .label{ font-size:11px; opacity:.7; }
+
+  .about-visual{
+    aspect-ratio:1;
+    display:flex; align-items:center; justify-content:center;
+    padding:20px;
+  }
+  .about-visual svg{ width:70%; height:70%; image-rendering:pixelated; shape-rendering:crispEdges; }
+
+  /* ---------- categories ---------- */
+  .cat-grid{
+    display:grid;
+    grid-template-columns:repeat(4, 1fr);
+    gap:20px;
+  }
+  @media (max-width:900px){ .cat-grid{ grid-template-columns:repeat(2,1fr); } }
+  @media (max-width:520px){ .cat-grid{ grid-template-columns:1fr; } }
+  .cat-card{
+    padding:22px;
+    background:var(--panel);
+    text-align:left;
+  }
+  .cat-card .icon-wrap{
+    width:44px; height:44px;
+    background:var(--ink);
+    border:3px solid var(--panel-light);
+    display:flex; align-items:center; justify-content:center;
+    margin-bottom:16px;
+  }
+  .cat-card .icon-wrap svg{ width:60%; height:60%; }
+  .cat-card h3{ font-size:13px; margin:0 0 10px; color:var(--amber); }
+  .cat-card p{ font-size:13px; opacity:.8; margin:0 0 14px; }
+  .cat-card .count{ font-size:11px; color:var(--mint); }
+
+  /* ---------- how to loot ---------- */
+  .steps{
+    counter-reset: step;
+    display:flex; flex-direction:column; gap:0;
+    max-width:640px; margin:0 auto;
+  }
+  .step{
+    display:flex; gap:20px;
+    padding:22px 0;
+    border-bottom:2px dashed var(--panel-light);
+  }
+  .step:last-child{ border-bottom:none; }
+  .step-num{
+    font-family:'Press Start 2P';
+    font-size:16px;
+    color:var(--coral);
+    flex-shrink:0;
+    width:36px;
+  }
+  .step h3{ font-size:13px; margin:0 0 8px; color:var(--cream); }
+  .step p{ font-size:13px; opacity:.8; margin:0; }
+  .step code{
+    background:var(--ink);
+    border:1px solid var(--panel-light);
+    padding:2px 6px;
+    font-size:12px;
+    color:var(--mint);
+  }
+
+  /* ---------- cta / footer ---------- */
+  .cta-band{
+    text-align:center;
+    padding:60px 24px;
+    border-top:4px solid var(--panel-light);
+    border-bottom:4px solid var(--panel-light);
+    background:var(--panel);
+  }
+  .cta-band h2{ font-size:20px; margin-bottom:14px; }
+  .cta-band p{ opacity:.8; font-size:14px; margin-bottom:26px; }
+
+  footer{
+    padding:36px 0;
+    text-align:center;
+    font-size:12px;
+    opacity:.6;
+  }
+  footer a{ text-decoration:underline; }
+</style>
+</head>
+<body>
+
+<!-- shared pixel icon symbols -->
+<svg width="0" height="0" style="position:absolute">
+  <defs>
+    <symbol id="icon-chest" viewBox="0 0 8 8">
+      <rect x="1" y="2" width="6" height="2" fill="#F4C95D"/>
+      <rect x="1" y="4" width="6" height="3" fill="#8B5E3C"/>
+      <rect x="3" y="3" width="2" height="1" fill="#1A1425"/>
+    </symbol>
+    <symbol id="icon-gem" viewBox="0 0 8 8">
+      <rect x="3" y="1" width="2" height="1" fill="#9FE6D6"/>
+      <rect x="2" y="2" width="4" height="1" fill="#7FD1B9"/>
+      <rect x="1" y="3" width="6" height="2" fill="#4FB3A9"/>
+      <rect x="2" y="5" width="4" height="1" fill="#357F79"/>
+      <rect x="3" y="6" width="2" height="1" fill="#357F79"/>
+    </symbol>
+    <symbol id="icon-sword" viewBox="0 0 8 8">
+      <rect x="4" y="0" width="1" height="4" fill="#EDEDED"/>
+      <rect x="3" y="1" width="1" height="1" fill="#BFBFBF"/>
+      <rect x="2" y="4" width="4" height="1" fill="#8B5E3C"/>
+      <rect x="4" y="5" width="1" height="3" fill="#5C3A24"/>
+    </symbol>
+    <symbol id="icon-heart" viewBox="0 0 8 8">
+      <rect x="1" y="1" width="2" height="2" fill="#E8664A"/>
+      <rect x="5" y="1" width="2" height="2" fill="#E8664A"/>
+      <rect x="1" y="3" width="6" height="2" fill="#E8664A"/>
+      <rect x="2" y="5" width="4" height="1" fill="#E8664A"/>
+      <rect x="3" y="6" width="2" height="1" fill="#E8664A"/>
+    </symbol>
+    <symbol id="icon-star" viewBox="0 0 8 8">
+      <rect x="3" y="0" width="2" height="2" fill="#F4C95D"/>
+      <rect x="1" y="3" width="6" height="1" fill="#F4C95D"/>
+      <rect x="2" y="4" width="4" height="1" fill="#F4C95D"/>
+      <rect x="1" y="5" width="2" height="2" fill="#F4C95D"/>
+      <rect x="5" y="5" width="2" height="2" fill="#F4C95D"/>
+    </symbol>
+    <symbol id="icon-potion" viewBox="0 0 8 8">
+      <rect x="3" y="0" width="2" height="1" fill="#7FD1B9"/>
+      <rect x="3" y="1" width="2" height="1" fill="#4a4560"/>
+      <rect x="2" y="2" width="4" height="1" fill="#4a4560"/>
+      <rect x="1" y="3" width="6" height="4" fill="#E8664A"/>
+      <rect x="2" y="4" width="1" height="1" fill="#F5F0E6"/>
+    </symbol>
+  </defs>
+</svg>
+
+<header class="nav">
+  <div class="wrap">
+    <a href="#top" class="brand">
+      <svg class="icon" viewBox="0 0 8 8"><use href="#icon-chest"/></svg>
+      PIXELS PUBLIC STASH
+    </a>
+    <nav class="nav-links">
+      <a href="#inventory">Inventory</a>
+      <a href="#loot-types">Loot Types</a>
+      <a href="#how-to">How to Loot</a>
+      <a href="https://github.com/" target="_blank" rel="noopener">GitHub</a>
+    </nav>
+  </div>
+</header>
+
+<main id="top">
+
+  <section class="hero">
+    <div class="wrap">
+      <span class="eyebrow pixel-font">// A COMMUNITY LOOT VAULT</span>
+      <h1>
+        <span style="animation-delay:.02s">PIXELS</span>
+        <span style="animation-delay:.08s" class="amber-letter">PUBLIC</span><br>
+        <span style="animation-delay:.14s">STASH</span>
+      </h1>
+      <p class="tag">
+        A free vault of pixel-art loot — sprites, tilesets, palettes, and UI kits —
+        stashed by pixel artists, for anyone building a game. Take what you need. No sign-up. No catch.
+      </p>
+      <div class="hero-ctas">
+        <a href="#inventory" class="pixel-btn">OPEN THE STASH</a>
+        <a href="https://github.com/" target="_blank" rel="noopener" class="pixel-btn ghost">VIEW ON GITHUB</a>
+      </div>
+    </div>
+  </section>
+
+  <section id="inventory">
+    <div class="wrap">
+      <div class="section-head">
+        <span class="eyebrow pixel-font">INVENTORY</span>
+        <h2>Today's drops</h2>
+        <p>A rotating sample of what's sitting in the stash right now. Hover a slot to see what it is.</p>
+      </div>
+
+      <div class="pixel-box inventory-frame">
+        <div class="inventory-grid">
+          <!-- 12 slots cycling through 6 icons -->
+          <div class="slot"><svg class="icon"><use href="#icon-chest"/></svg>
+            <div class="tooltip"><b>TILESET</b>Autumn Village · 32×32 tiles, seamless edges</div></div>
+          <div class="slot"><svg class="icon"><use href="#icon-gem"/></svg>
+            <div class="tooltip"><b>PALETTE</b>Dusk-8 · 8-color moody twilight ramp</div></div>
+          <div class="slot"><svg class="icon"><use href="#icon-sword"/></svg>
+            <div class="tooltip"><b>SPRITE SHEET</b>Knight Walk/Attack · 6 frames each</div></div>
+          <div class="slot"><svg class="icon"><use href="#icon-heart"/></svg>
+            <div class="tooltip"><b>UI KIT</b>HP/Mana Bars · animated fill states</div></div>
+          <div class="slot"><svg class="icon"><use href="#icon-star"/></svg>
+            <div class="tooltip"><b>UI KIT</b>Loot Sparkle · 4-frame pickup FX</div></div>
+          <div class="slot"><svg class="icon"><use href="#icon-potion"/></svg>
+            <div class="tooltip"><b>SPRITE</b>Brew Bottles · 12 potion variants</div></div>
+
+          <div class="slot"><svg class="icon"><use href="#icon-gem"/></svg>
+            <div class="tooltip"><b>PALETTE</b>Coral Reef-6 · warm undersea tones</div></div>
+          <div class="slot"><svg class="icon"><use href="#icon-chest"/></svg>
+            <div class="tooltip"><b>TILESET</b>Dungeon Stone · torches included</div></div>
+          <div class="slot"><svg class="icon"><use href="#icon-star"/></svg>
+            <div class="tooltip"><b>ICON PACK</b>48 pixel status icons</div></div>
+          <div class="slot"><svg class="icon"><use href="#icon-heart"/></svg>
+            <div class="tooltip"><b>UI KIT</b>Dialogue Box · 3 border styles</div></div>
+          <div class="slot"><svg class="icon"><use href="#icon-sword"/></svg>
+            <div class="tooltip"><b>SPRITE SHEET</b>Slime Enemy · idle/hurt/death</div></div>
+          <div class="slot"><svg class="icon"><use href="#icon-potion"/></svg>
+            <div class="tooltip"><b>SPRITE</b>Campfire · 4-frame flicker loop</div></div>
+        </div>
+      </div>
+      <p class="inventory-caption">New loot gets stashed most weekends — check the repo for the full log.</p>
+    </div>
+  </section>
+
+  <section id="about">
+    <div class="wrap about-grid">
+      <div class="about-copy">
+        <span class="eyebrow pixel-font" style="display:block;margin-bottom:14px;">WHAT'S IN HERE</span>
+        <h2>One folder. No strings.</h2>
+        <p>Pixels Public Stash is a plain GitHub repo, organized by loot type, that anyone can clone, fork, or
+          drop assets into. No accounts, no paywalled tiers — if it's in the stash, it's yours to use.</p>
+        <p>Everything is released under a permissive license noted in each folder's README. Credit is
+          appreciated, never required.</p>
+        <div class="stat-row">
+          <div class="stat"><span class="num">120+</span><span class="label">assets stashed</span></div>
+          <div class="stat"><span class="num">4</span><span class="label">loot categories</span></div>
+          <div class="stat"><span class="num">0</span><span class="label">sign-ups needed</span></div>
+        </div>
+      </div>
+      <div class="about-visual pixel-box">
+        <svg viewBox="0 0 8 8"><use href="#icon-chest"/></svg>
+      </div>
+    </div>
+  </section>
+
+  <section id="loot-types">
+    <div class="wrap">
+      <div class="section-head">
+        <span class="eyebrow pixel-font">LOOT TYPES</span>
+        <h2>Browse by category</h2>
+        <p>The stash is split into four folders in the repo — grab a whole set or cherry-pick single files.</p>
+      </div>
+      <div class="cat-grid">
+        <div class="cat-card pixel-box">
+          <div class="icon-wrap"><svg viewBox="0 0 8 8"><use href="#icon-sword"/></svg></div>
+          <h3>SPRITES &amp; CHARACTERS</h3>
+          <p>Player and enemy sheets, animation frames, and standalone item sprites.</p>
+          <span class="count">48 files</span>
+        </div>
+        <div class="cat-card pixel-box">
+          <div class="icon-wrap"><svg viewBox="0 0 8 8"><use href="#icon-chest"/></svg></div>
+          <h3>TILESETS &amp; WORLDS</h3>
+          <p>Seamless tile sheets for terrain, dungeons, towns, and interiors.</p>
+          <span class="count">22 files</span>
+        </div>
+        <div class="cat-card pixel-box">
+          <div class="icon-wrap"><svg viewBox="0 0 8 8"><use href="#icon-gem"/></svg></div>
+          <h3>COLOR PALETTES</h3>
+          <p>Curated ramps in .gpl and .png swatch form, 4 to 16 colors each.</p>
+          <span class="count">31 files</span>
+        </div>
+        <div class="cat-card pixel-box">
+          <div class="icon-wrap"><svg viewBox="0 0 8 8"><use href="#icon-star"/></svg></div>
+          <h3>UI &amp; HUD KITS</h3>
+          <p>Health bars, dialogue boxes, cursors, and pickup effects.</p>
+          <span class="count">19 files</span>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section id="how-to">
+    <div class="wrap">
+      <div class="section-head">
+        <span class="eyebrow pixel-font">HOW TO LOOT</span>
+        <h2>Getting assets into your game</h2>
+      </div>
+      <div class="steps pixel-box" style="padding:10px 30px;">
+        <div class="step">
+          <span class="step-num">01</span>
+          <div><h3>Clone the repo</h3><p>Run <code>git clone</code> on the Pixels Public Stash repository, or download it as a zip from GitHub.</p></div>
+        </div>
+        <div class="step">
+          <span class="step-num">02</span>
+          <div><h3>Open the loot folder</h3><p>Each category has its own subfolder with a README listing what's inside and the license it's under.</p></div>
+        </div>
+        <div class="step">
+          <span class="step-num">03</span>
+          <div><h3>Drag assets into your project</h3><p>Sprites are exported as trimmed PNGs; tilesets keep their native grid size in the filename.</p></div>
+        </div>
+        <div class="step">
+          <span class="step-num">04</span>
+          <div><h3>Ship it — and stash something back</h3><p>Pull requests with new loot are always welcome, credited or anonymous.</p></div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="cta-band">
+    <h2 class="pixel-font" style="font-size:18px;">READY TO RAID THE STASH?</h2>
+    <p>Everything above lives in one public repository — free to clone, fork, and build with.</p>
+    <a href="https://github.com/" target="_blank" rel="noopener" class="pixel-btn">GO TO THE REPO →</a>
+  </section>
+
+</main>
+
+<footer>
+  <div class="wrap">
+    Pixels Public Stash · community-stocked, always free · <a href="https://github.com/" target="_blank" rel="noopener">GitHub</a>
+  </div>
+</footer>
+
+</body>
+</html>
