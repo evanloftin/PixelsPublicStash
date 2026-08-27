@@ -96,6 +96,11 @@
     padding:28px;
   }
   .panel.active{ display:block; }
+  .panel.enter{ animation:panelIn .28s ease both; }
+  @keyframes panelIn{
+    from{ opacity:0; transform:translateX(14px); }
+    to{ opacity:1; transform:translateX(0); }
+  }
   .panel-head{ display:flex; align-items:baseline; justify-content:space-between; margin-bottom:22px; flex-wrap:wrap; gap:10px;}
   .panel-head h2{ font-size:16px; color:var(--amber); margin:0; }
   .panel-head span{ font-size:12px; opacity:.65; }
@@ -183,8 +188,8 @@
     <button class="drawer-tab" data-panel="tilesets">GAMES<span class="count">10 links</span></button>
     <button class="drawer-tab" data-panel="palettes">PROXIES<span class="count">10 links</span></button>
     <button class="drawer-tab" data-panel="ui">OTHERS<span class="count">10 links</span></button>
-    <button class="drawer-tab" data-panel="extra1">NEW TAB 1<span class="count">0 links</span></button>
-    <button class="drawer-tab" data-panel="extra2">NEW TAB 2<span class="count">0 links</span></button>
+    <button class="drawer-tab" data-panel="extra1">NEW TAB 1<span class="count">10 links</span></button>
+    <button class="drawer-tab" data-panel="extra2">NEW TAB 2<span class="count">10 links</span></button>
   </div>
 
   <main>
@@ -256,14 +261,32 @@
     <section class="panel" id="extra1">
       <div class="panel-head"><h2>NEW TAB 1</h2><span>add your links here</span></div>
       <div class="link-grid">
-        <!-- add link-btn entries here, same format as the other panels -->
+        <a class="link-btn" href="#" target="_blank" rel="noopener"><span><span class="name">Link 1</span><span class="desc">description</span></span><span class="arrow">→</span></a>
+        <a class="link-btn" href="#" target="_blank" rel="noopener"><span><span class="name">Link 2</span><span class="desc">description</span></span><span class="arrow">→</span></a>
+        <a class="link-btn" href="#" target="_blank" rel="noopener"><span><span class="name">Link 3</span><span class="desc">description</span></span><span class="arrow">→</span></a>
+        <a class="link-btn" href="#" target="_blank" rel="noopener"><span><span class="name">Link 4</span><span class="desc">description</span></span><span class="arrow">→</span></a>
+        <a class="link-btn" href="#" target="_blank" rel="noopener"><span><span class="name">Link 5</span><span class="desc">description</span></span><span class="arrow">→</span></a>
+        <a class="link-btn" href="#" target="_blank" rel="noopener"><span><span class="name">Link 6</span><span class="desc">description</span></span><span class="arrow">→</span></a>
+        <a class="link-btn" href="#" target="_blank" rel="noopener"><span><span class="name">Link 7</span><span class="desc">description</span></span><span class="arrow">→</span></a>
+        <a class="link-btn" href="#" target="_blank" rel="noopener"><span><span class="name">Link 8</span><span class="desc">description</span></span><span class="arrow">→</span></a>
+        <a class="link-btn" href="#" target="_blank" rel="noopener"><span><span class="name">Link 9</span><span class="desc">description</span></span><span class="arrow">→</span></a>
+        <a class="link-btn" href="#" target="_blank" rel="noopener"><span><span class="name">Link 10</span><span class="desc">description</span></span><span class="arrow">→</span></a>
       </div>
     </section>
 
     <section class="panel" id="extra2">
       <div class="panel-head"><h2>NEW TAB 2</h2><span>add your links here</span></div>
       <div class="link-grid">
-        <!-- add link-btn entries here, same format as the other panels -->
+        <a class="link-btn" href="#" target="_blank" rel="noopener"><span><span class="name">Link 1</span><span class="desc">description</span></span><span class="arrow">→</span></a>
+        <a class="link-btn" href="#" target="_blank" rel="noopener"><span><span class="name">Link 2</span><span class="desc">description</span></span><span class="arrow">→</span></a>
+        <a class="link-btn" href="#" target="_blank" rel="noopener"><span><span class="name">Link 3</span><span class="desc">description</span></span><span class="arrow">→</span></a>
+        <a class="link-btn" href="#" target="_blank" rel="noopener"><span><span class="name">Link 4</span><span class="desc">description</span></span><span class="arrow">→</span></a>
+        <a class="link-btn" href="#" target="_blank" rel="noopener"><span><span class="name">Link 5</span><span class="desc">description</span></span><span class="arrow">→</span></a>
+        <a class="link-btn" href="#" target="_blank" rel="noopener"><span><span class="name">Link 6</span><span class="desc">description</span></span><span class="arrow">→</span></a>
+        <a class="link-btn" href="#" target="_blank" rel="noopener"><span><span class="name">Link 7</span><span class="desc">description</span></span><span class="arrow">→</span></a>
+        <a class="link-btn" href="#" target="_blank" rel="noopener"><span><span class="name">Link 8</span><span class="desc">description</span></span><span class="arrow">→</span></a>
+        <a class="link-btn" href="#" target="_blank" rel="noopener"><span><span class="name">Link 9</span><span class="desc">description</span></span><span class="arrow">→</span></a>
+        <a class="link-btn" href="#" target="_blank" rel="noopener"><span><span class="name">Link 10</span><span class="desc">description</span></span><span class="arrow">→</span></a>
       </div>
     </section>
 
@@ -280,10 +303,21 @@
   const panels = document.querySelectorAll('.panel');
   tabs.forEach(tab => {
     tab.addEventListener('click', () => {
+      const target = document.getElementById(tab.dataset.panel);
+      if (target.classList.contains('active')) return;
+
       tabs.forEach(t => t.classList.remove('active'));
-      panels.forEach(p => p.classList.remove('active'));
       tab.classList.add('active');
-      document.getElementById(tab.dataset.panel).classList.add('active');
+
+      panels.forEach(p => {
+        p.classList.remove('active');
+        p.classList.remove('enter');
+      });
+
+      target.classList.add('active');
+      // restart the animation each time
+      void target.offsetWidth;
+      target.classList.add('enter');
     });
   });
 </script>
