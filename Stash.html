@@ -18,6 +18,7 @@
     --mint:#7FD1B9;
     --shadow: rgba(0,0,0,0.55);
     --max-w: 1000px;
+    --sidebar-w: 200px;
   }
   html{ overflow-x:hidden; }
   *{ box-sizing:border-box; }
@@ -44,14 +45,24 @@
   header h1{ font-size:clamp(22px,4vw,34px); margin:20px 0 14px; color:var(--cream); }
   header p{ max-width:520px; margin:0 auto; opacity:.8; font-size:14px; }
 
-  /* drawer tabs */
+  /* layout: sidebar + content */
+  .layout{
+    display:flex;
+    align-items:flex-start;
+    gap:28px;
+    max-width:1200px;
+    margin:36px auto 0;
+    padding:0 24px;
+  }
+
+  /* sidebar tabs */
   .drawers{
     display:flex;
+    flex-direction:column;
     gap:10px;
-    justify-content:center;
-    flex-wrap:wrap;
-    margin:36px auto 0;
-    width:100%;
+    flex:0 0 var(--sidebar-w);
+    position:sticky;
+    top:20px;
   }
   .drawer-tab{
     font-family:'Press Start 2P', monospace;
@@ -62,6 +73,8 @@
     border:4px solid var(--panel-light);
     box-shadow:4px 4px 0 var(--shadow);
     cursor:pointer;
+    text-align:left;
+    width:100%;
     transition:transform .08s ease, border-color .1s ease, background .1s ease;
   }
   .drawer-tab .count{ display:block; margin-top:6px; font-size:9px; color:var(--mint); }
@@ -74,7 +87,7 @@
   .drawer-tab.active .count{ color:var(--coral); }
 
   /* panel */
-  main{ padding:44px 0 80px; }
+  main{ padding:0 0 80px; flex:1 1 auto; min-width:0; }
   .panel{
     display:none;
     border:4px solid var(--cream);
@@ -136,6 +149,18 @@
   }
   .ask-btn:hover{ transform:translate(-2px,-2px); box-shadow:6px 6px 0 var(--shadow); }
   .ask-btn:active{ transform:translate(2px,2px); box-shadow:2px 2px 0 var(--shadow); }
+
+  /* stack sidebar on top for narrow screens */
+  @media (max-width:800px){
+    .layout{ flex-direction:column; }
+    .drawers{
+      flex-direction:row;
+      flex-wrap:wrap;
+      position:static;
+      width:100%;
+    }
+    .drawer-tab{ flex:1 1 45%; text-align:center; }
+  }
   @media (max-width:640px){
     .ask-btn{ top:auto; bottom:16px; right:16px; font-size:9px; padding:10px 12px; }
   }
@@ -151,80 +176,100 @@
   <p>Yea bud 40 links in 10 years</p>
 </header>
 
-<div class="drawers wrap" role="tablist">
-  <button class="drawer-tab active" data-panel="sprites">WEBSITES<span class="count">10 links</span></button>
-  <button class="drawer-tab" data-panel="tilesets">GAMES<span class="count">10 links</span></button>
-  <button class="drawer-tab" data-panel="palettes">PROXIES<span class="count">10 links</span></button>
-  <button class="drawer-tab" data-panel="ui">OTHERS<span class="count">10 links</span></button>
+<div class="layout">
+
+  <div class="drawers" role="tablist">
+    <button class="drawer-tab active" data-panel="sprites">WEBSITES<span class="count">10 links</span></button>
+    <button class="drawer-tab" data-panel="tilesets">GAMES<span class="count">10 links</span></button>
+    <button class="drawer-tab" data-panel="palettes">PROXIES<span class="count">10 links</span></button>
+    <button class="drawer-tab" data-panel="ui">OTHERS<span class="count">10 links</span></button>
+    <button class="drawer-tab" data-panel="extra1">NEW TAB 1<span class="count">0 links</span></button>
+    <button class="drawer-tab" data-panel="extra2">NEW TAB 2<span class="count">0 links</span></button>
+  </div>
+
+  <main>
+
+    <section class="panel active" id="sprites">
+      <div class="panel-head"><h2></h2><span></span></div>
+      <div class="link-grid">
+        <a class="link-btn" href="https://evanloftin.github.io/gnnew/" target="_blank" rel="noopener"><span><span class="name">GN-Math Link 1</span><span class="desc">Have Fun Btw you have 50 missing assingments</span></span><span class="arrow">→</span></a>
+        <a class="link-btn" href="https://raycool2hi2022-lab.github.io/gnnew/" target="_blank" rel="noopener"><span><span class="name">GN-Math Link 2</span><span class="desc">Indie-made sprite packs, free & paid</span></span><span class="arrow">→</span></a>
+        <a class="link-btn" href="https://kenney.nl/assets?q=2d" target="_blank" rel="noopener"><span><span class="name"></span><span class="desc"></span></span><span class="arrow">→</span></a>
+        <a class="link-btn" href="https://www.spriters-resource.com/" target="_blank" rel="noopener"><span><span class="name"></span><span class="desc"></span></span><span class="arrow">→</span></a>
+        <a class="link-btn" href="https://craftpix.net/freebies/" target="_blank" rel="noopener"><span><span class="name"></span><span class="desc"></span></span><span class="arrow">→</span></a>
+        <a class="link-btn" href="https://www.piskelapp.com/" target="_blank" rel="noopener"><span><span class="name"></span><span class="desc"></span></span><span class="arrow">→</span></a>
+        <a class="link-btn" href="https://www.aseprite.org/" target="_blank" rel="noopener"><span><span class="name"></span><span class="desc"></span></span><span class="arrow">→</span></a>
+        <a class="link-btn" href="https://lpc.opengameart.org/" target="_blank" rel="noopener"><span><span class="name"></span><span class="desc"></span></span><span class="arrow">→</span></a>
+        <a class="link-btn" href="https://www.gameart2d.com/freebies.html" target="_blank" rel="noopener"><span><span class="name"></span><span class="desc"></span></span><span class="arrow">→</span></a>
+        <a class="link-btn" href="https://pixeljoint.com/" target="_blank" rel="noopener"><span><span class="name"></span><span class="desc"></span></span><span class="arrow">→</span></a>
+      </div>
+    </section>
+
+    <section class="panel" id="tilesets">
+      <div class="panel-head"><h2></h2><span>Slope, empty, empty and more games </span></div>
+      <div class="link-grid">
+        <a class="link-btn" href="https://evanloftin.github.io/Slope/" target="_blank" rel="noopener"><span><span class="name">Slope 1</span><span class="desc">A game where you move a ball around obstacles</span></span><span class="arrow">→</span></a>
+        <a class="link-btn" href="https://evanloftin.github.io/retro-bowl-unlocked/" target="_blank" rel="noopener"><span><span class="name">Retro Bowl</span><span class="desc">Idk what this is</span></span><span class="arrow">→</span></a>
+        <a class="link-btn" href="https://evanloftin.github.io/MotoX3Mp/" target="_blank" rel="noopener"><span><span class="name">MotoX3M</span><span class="desc">Motorcycles i guess</span></span><span class="arrow">→</span></a>
+        <a class="link-btn" href="https://evanloftin.github.io/gdl/" target="_blank" rel="noopener"><span><span class="name">Geometry Dash Lite</span><span class="desc">Really shitty</span></span><span class="arrow">→</span></a>
+        <a class="link-btn" href="https://evanloftin.github.io/Slither.io-unblocked/" target="_blank" rel="noopener"><span><span class="name">Snake.io</span><span class="desc">Free tool for building tile maps</span></span><span class="arrow">→</span></a>
+        <a class="link-btn" href="https://evanloftin.github.io/eaglercrafthtml/" target="_blank" rel="noopener"><span><span class="name">Minecraft 1.8</span><span class="desc">Minecraft version 1.8</span></span><span class="arrow">→</span></a>
+        <a class="link-btn" href="https://pixelfrog-assets.itch.io/" target="_blank" rel="noopener"><span><span class="name"></span><span class="desc"></span></span><span class="arrow">→</span></a>
+        <a class="link-btn" href="https://www.gamedevmarket.net/category/2d/tiles" target="_blank" rel="noopener"><span><span class="name"></span><span class="desc"></span></span><span class="arrow">→</span></a>
+        <a class="link-btn" href="https://itch.io/game-assets/free/tag-tileset" target="_blank" rel="noopener"><span><span class="name"></span><span class="desc"></span></span><span class="arrow">→</span></a>
+        <a class="link-btn" href="https://finalbossblues.itch.io/" target="_blank" rel="noopener"><span><span class="name"></span><span class="desc"></span></span><span class="arrow">→</span></a>
+      </div>
+    </section>
+
+    <section class="panel" id="palettes">
+      <div class="panel-head"><h2></h2><span>you can search any website and do whatever just please dont leak or get this blocked</span></div>
+      <div class="link-grid">
+        <a class="link-btn" href="https://algebra.ixl-grade10.org/" target="_blank" rel="noopener"><span><span class="name">Frogies Arcade 1</span><span class="desc">Very Good proxy with roblox and other very good games</span></span><span class="arrow">→</span></a>
+        <a class="link-btn" href="https://evanloftin.github.io/m/" target="_blank" rel="noopener"><span><span class="name">MONKEYGG2</span><span class="desc"></span></span><span class="arrow">→</span></a>
+        <a class="link-btn" href="https://s3.amazonaws.com/bulldebut/index.html" target="_blank" rel="noopener"><span><span class="name">BULL-33 1</span><span class="desc"></span></span><span class="arrow">→</span></a>
+        <a class="link-btn" href="https://s3.amazonaws.com/finallybull/index.html" target="_blank" rel="noopener"><span><span class="name">BULL-33 2</span><span class="desc"></span></span><span class="arrow">→</span></a>
+        <a class="link-btn" href="https://s3.amazonaws.com/bullproxy/index.html" target="_blank" rel="noopener"><span><span class="name">BULL-33 3</span><span class="desc"></span></span><span class="arrow">→</span></a>
+        <a class="link-btn" href="https://esm.sh/gh/frozenfinale/secrecy@69f852b/260813.svg" target="_blank" rel="noopener"><span><span class="name">CloudMoon 1</span><span class="desc"></span></span><span class="arrow">→</span></a>
+        <a class="link-btn" href="https://j96adfl0.frogseducation.life/" target="_blank" rel="noopener"><span><span class="name">Frogies Arcade 2</span><span class="desc">USERNAME: user_1d7eb5 PASSWORD: 3210d750 </span></span><span class="arrow">→</span></a>
+        <a class="link-btn" href="https://flatuicolors.com/" target="_blank" rel="noopener"><span><span class="name"></span><span class="desc"></span></span><span class="arrow">→</span></a>
+        <a class="link-btn" href="https://pixeljoint.com/forum/forum_index.asp" target="_blank" rel="noopener"><span><span class="name"></span><span class="desc"></span></span><span class="arrow">→</span></a>
+        <a class="link-btn" href="https://www.canva.com/colors/color-wheel/" target="_blank" rel="noopener"><span><span class="name"></span><span class="desc"></span></span><span class="arrow">→</span></a>
+      </div>
+    </section>
+
+    <section class="panel" id="ui">
+      <div class="panel-head"><h2>OTHERS</h2><span>bars, boxes, icons, kits</span></div>
+      <div class="link-grid">
+        <a class="link-btn" href="https://kenney.nl/assets?q=ui" target="_blank" rel="noopener"><span><span class="name"></span><span class="desc"></span></span><span class="arrow">→</span></a>
+        <a class="link-btn" href="https://itch.io/game-assets/tag-gui" target="_blank" rel="noopener"><span><span class="name"></span><span class="desc"></span></span><span class="arrow">→</span></a>
+        <a class="link-btn" href="https://craftpix.net/categorys/gui/" target="_blank" rel="noopener"><span><span class="name"></span><span class="desc"></span></span><span class="arrow">→</span></a>
+        <a class="link-btn" href="https://game-icons.net/" target="_blank" rel="noopener"><span><span class="name"></span><span class="desc"></span></span><span class="arrow">→</span></a>
+        <a class="link-btn" href="https://www.aseprite.org/" target="_blank" rel="noopener"><span><span class="name"></span><span class="desc"></span></span><span class="arrow">→</span></a>
+        <a class="link-btn" href="https://www.piskelapp.com/" target="_blank" rel="noopener"><span><span class="name"></span><span class="desc"></span></span><span class="arrow">→</span></a>
+        <a class="link-btn" href="https://graphicriver.net/game-assets/user-interfaces" target="_blank" rel="noopener"><span><span class="name"></span><span class="desc"></span></span><span class="arrow">→</span></a>
+        <a class="link-btn" href="https://itch.io/game-assets/free/tag-gui" target="_blank" rel="noopener"><span><span class="name"></span><span class="desc"></span></span><span class="arrow">→</span></a>
+        <a class="link-btn" href="https://opengameart.org/art-search-advanced?field_art_type_tid%5B%5D=12" target="_blank" rel="noopener"><span><span class="name"></span><span class="desc"></span></span><span class="arrow">→</span></a>
+        <a class="link-btn" href="https://www.figma.com/community/tag/game-ui" target="_blank" rel="noopener"><span><span class="name"></span><span class="desc"></span></span><span class="arrow">→</span></a>
+      </div>
+    </section>
+
+    <section class="panel" id="extra1">
+      <div class="panel-head"><h2>NEW TAB 1</h2><span>add your links here</span></div>
+      <div class="link-grid">
+        <!-- add link-btn entries here, same format as the other panels -->
+      </div>
+    </section>
+
+    <section class="panel" id="extra2">
+      <div class="panel-head"><h2>NEW TAB 2</h2><span>add your links here</span></div>
+      <div class="link-grid">
+        <!-- add link-btn entries here, same format as the other panels -->
+      </div>
+    </section>
+
+  </main>
+
 </div>
-
-<main class="wrap">
-
-  <section class="panel active" id="sprites">
-    <div class="panel-head"><h2>Websites</h2><span>Lots of Games inside website</span></div>
-    <div class="link-grid">
-      <a class="link-btn" href="https://evanloftin.github.io/gnnew/" target="_blank" rel="noopener"><span><span class="name">GN-Math Link 1</span><span class="desc">Have Fun Btw you have 50 missing assingments</span></span><span class="arrow">→</span></a>
-      <a class="link-btn" href="https://raycool2hi2022-lab.github.io/gnnew/" target="_blank" rel="noopener"><span><span class="name">GN-Math Link 2</span><span class="desc">Indie-made sprite packs, free & paid</span></span><span class="arrow">→</span></a>
-      <a class="link-btn" href="https://kenney.nl/assets?q=2d" target="_blank" rel="noopener"><span><span class="name"></span><span class="desc"></span></span><span class="arrow">→</span></a>
-      <a class="link-btn" href="https://www.spriters-resource.com/" target="_blank" rel="noopener"><span><span class="name"></span><span class="desc"></span></span><span class="arrow">→</span></a>
-      <a class="link-btn" href="https://craftpix.net/freebies/" target="_blank" rel="noopener"><span><span class="name"></span><span class="desc"></span></span><span class="arrow">→</span></a>
-      <a class="link-btn" href="https://www.piskelapp.com/" target="_blank" rel="noopener"><span><span class="name"></span><span class="desc"></span></span><span class="arrow">→</span></a>
-      <a class="link-btn" href="https://www.aseprite.org/" target="_blank" rel="noopener"><span><span class="name"></span><span class="desc"></span></span><span class="arrow">→</span></a>
-      <a class="link-btn" href="https://lpc.opengameart.org/" target="_blank" rel="noopener"><span><span class="name"></span><span class="desc"></span></span><span class="arrow">→</span></a>
-      <a class="link-btn" href="https://www.gameart2d.com/freebies.html" target="_blank" rel="noopener"><span><span class="name"></span><span class="desc"></span></span><span class="arrow">→</span></a>
-      <a class="link-btn" href="https://pixeljoint.com/" target="_blank" rel="noopener"><span><span class="name"></span><span class="desc"></span></span><span class="arrow">→</span></a>
-    </div>
-  </section>
-
-  <section class="panel" id="tilesets">
-    <div class="panel-head"><h2>Games</h2><span>Slope, empty, empty and more games </span></div>
-    <div class="link-grid">
-      <a class="link-btn" href="https://evanloftin.github.io/Slope/" target="_blank" rel="noopener"><span><span class="name">Slope 1</span><span class="desc">A game where you move a ball around obstacles</span></span><span class="arrow">→</span></a>
-      <a class="link-btn" href="https://evanloftin.github.io/retro-bowl-unlocked/" target="_blank" rel="noopener"><span><span class="name">Retro Bowl</span><span class="desc">Idk what this is</span></span><span class="arrow">→</span></a>
-      <a class="link-btn" href="https://evanloftin.github.io/MotoX3Mp/" target="_blank" rel="noopener"><span><span class="name">MotoX3M</span><span class="desc">Motorcycles i guess</span></span><span class="arrow">→</span></a>
-      <a class="link-btn" href="https://evanloftin.github.io/gdl/" target="_blank" rel="noopener"><span><span class="name">Geometry Dash Lite</span><span class="desc">Really shitty</span></span><span class="arrow">→</span></a>
-      <a class="link-btn" href="https://evanloftin.github.io/Slither.io-unblocked/" target="_blank" rel="noopener"><span><span class="name">Snake.io</span><span class="desc">Free tool for building tile maps</span></span><span class="arrow">→</span></a>
-      <a class="link-btn" href="https://evanloftin.github.io/eaglercrafthtml/" target="_blank" rel="noopener"><span><span class="name">Minecraft 1.8</span><span class="desc">Minecraft version 1.8</span></span><span class="arrow">→</span></a>
-      <a class="link-btn" href="https://pixelfrog-assets.itch.io/" target="_blank" rel="noopener"><span><span class="name">Death Client</span><span class="desc">Minecraft hack client for eaglercraft</span></span><span class="arrow">→</span></a>
-      <a class="link-btn" href="https://www.gamedevmarket.net/category/2d/tiles" target="_blank" rel="noopener"><span><span class="name"></span><span class="desc"></span></span><span class="arrow">→</span></a>
-      <a class="link-btn" href="https://itch.io/game-assets/free/tag-tileset" target="_blank" rel="noopener"><span><span class="name"></span><span class="desc"></span></span><span class="arrow">→</span></a>
-      <a class="link-btn" href="https://finalbossblues.itch.io/" target="_blank" rel="noopener"><span><span class="name"></span><span class="desc"></span></span><span class="arrow">→</span></a>
-    </div>
-  </section>
-
-  <section class="panel" id="palettes">
-    <div class="panel-head"><h2>PROXIES</h2><span>you can search any website and do whatever just please dont leak or get this blocked</span></div>
-    <div class="link-grid">
-      <a class="link-btn" href="https://algebra.ixl-grade10.org/" target="_blank" rel="noopener"><span><span class="name">Frogies Arcade 1</span><span class="desc">Very Good proxy with roblox and other very good games</span></span><span class="arrow">→</span></a>
-      <a class="link-btn" href="https://evanloftin.github.io/m/" target="_blank" rel="noopener"><span><span class="name">MONKEYGG2</span><span class="desc"></span></span><span class="arrow">→</span></a>
-      <a class="link-btn" href="https://s3.amazonaws.com/bulldebut/index.html" target="_blank" rel="noopener"><span><span class="name">BULL-33 1</span><span class="desc"></span></span><span class="arrow">→</span></a>
-      <a class="link-btn" href="https://s3.amazonaws.com/finallybull/index.html" target="_blank" rel="noopener"><span><span class="name">BULL-33 2</span><span class="desc"></span></span><span class="arrow">→</span></a>
-      <a class="link-btn" href="https://s3.amazonaws.com/bullproxy/index.html" target="_blank" rel="noopener"><span><span class="name">BULL-33 3</span><span class="desc"></span></span><span class="arrow">→</span></a>
-      <a class="link-btn" href="https://esm.sh/gh/frozenfinale/secrecy@69f852b/260813.svg" target="_blank" rel="noopener"><span><span class="name">CloudMoon 1</span><span class="desc"></span></span><span class="arrow">→</span></a>
-      <a class="link-btn" href="https://j96adfl0.frogseducation.life/" target="_blank" rel="noopener"><span><span class="name">Frogies Arcade 2</span><span class="desc">USERNAME: user_1d7eb5 PASSWORD: 3210d750 </span></span><span class="arrow">→</span></a>
-      <a class="link-btn" href="https://flatuicolors.com/" target="_blank" rel="noopener"><span><span class="name"></span><span class="desc"></span></span><span class="arrow">→</span></a>
-      <a class="link-btn" href="https://pixeljoint.com/forum/forum_index.asp" target="_blank" rel="noopener"><span><span class="name"></span><span class="desc"></span></span><span class="arrow">→</span></a>
-      <a class="link-btn" href="https://www.canva.com/colors/color-wheel/" target="_blank" rel="noopener"><span><span class="name"></span><span class="desc"></span></span><span class="arrow">→</span></a>
-    </div>
-  </section>
-
-  <section class="panel" id="ui">
-    <div class="panel-head"><h2>OTHERS</h2><span>bars, boxes, icons, kits</span></div>
-    <div class="link-grid">
-      <a class="link-btn" href="https://kenney.nl/assets?q=ui" target="_blank" rel="noopener"><span><span class="name"></span><span class="desc"></span></span><span class="arrow">→</span></a>
-      <a class="link-btn" href="https://itch.io/game-assets/tag-gui" target="_blank" rel="noopener"><span><span class="name"></span><span class="desc"></span></span><span class="arrow">→</span></a>
-      <a class="link-btn" href="https://craftpix.net/categorys/gui/" target="_blank" rel="noopener"><span><span class="name"></span><span class="desc"></span></span><span class="arrow">→</span></a>
-      <a class="link-btn" href="https://game-icons.net/" target="_blank" rel="noopener"><span><span class="name"></span><span class="desc"></span></span><span class="arrow">→</span></a>
-      <a class="link-btn" href="https://www.aseprite.org/" target="_blank" rel="noopener"><span><span class="name"></span><span class="desc"></span></span><span class="arrow">→</span></a>
-      <a class="link-btn" href="https://www.piskelapp.com/" target="_blank" rel="noopener"><span><span class="name"></span><span class="desc"></span></span><span class="arrow">→</span></a>
-      <a class="link-btn" href="https://graphicriver.net/game-assets/user-interfaces" target="_blank" rel="noopener"><span><span class="name"></span><span class="desc"></span></span><span class="arrow">→</span></a>
-      <a class="link-btn" href="https://itch.io/game-assets/free/tag-gui" target="_blank" rel="noopener"><span><span class="name"></span><span class="desc"></span></span><span class="arrow">→</span></a>
-      <a class="link-btn" href="https://opengameart.org/art-search-advanced?field_art_type_tid%5B%5D=12" target="_blank" rel="noopener"><span><span class="name"></span><span class="desc"></span></span><span class="arrow">→</span></a>
-      <a class="link-btn" href="https://www.figma.com/community/tag/game-ui" target="_blank" rel="noopener"><span><span class="name"></span><span class="desc"></span></span><span class="arrow">→</span></a>
-    </div>
-  </section>
-
-</main>
 
 <footer class="wrap">
   Pixels Public Stash · Link Vault · <a href="index.html">← Back to the stash</a>
